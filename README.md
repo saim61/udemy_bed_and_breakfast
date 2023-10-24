@@ -1,2 +1,5 @@
-# udemy_bed_and_breakfast
-Simple bed and breakfast Go program for a bed and breakfast following the course: https://www.udemy.com/course/building-modern-web-applications-with-go/
+# Bookings
+
+The repository for [Building Modern Web Applications with Go](https://www.udemy.com/course/building-modern-web-applications-with-go/?referralCode=0415FB906223F10C6800).
+
+
