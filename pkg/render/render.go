@@ -6,18 +6,23 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
+	"udemy_bed_and_breakfast/models"
 	"udemy_bed_and_breakfast/pkg/config"
 )
 
 var app *config.AppConfig
 
 // NewTemplates set the config for the template package
-func NewTemplates(a *config.AppConfig) { 
+func NewTemplates(a *config.AppConfig) {
 	app = a
 }
 
+func AddDefaultData(td *models.TemplateData) *models.TemplateData {
+	return td
+}
+
 // RenderTemplate renders a template
-func RenderTemplate(w http.ResponseWriter, tmpl string) {
+func RenderTemplate(w http.ResponseWriter, tmpl string, td *models.TemplateData) {
 
 	var tc map[string]*template.Template
 	if app.UseCache {
@@ -34,8 +39,9 @@ func RenderTemplate(w http.ResponseWriter, tmpl string) {
 	}
 
 	buf := new(bytes.Buffer)
+	td = AddDefaultData(td)
 
-	err := t.Execute(buf, nil)
+	err := t.Execute(buf, td)
 	if err != nil {
 		log.Println(err)
 	}
