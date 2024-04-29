@@ -4,17 +4,31 @@ import (
 	"fmt"
 	"log"
 	"net/http"
+	"time"
 	"udemy_bed_and_breakfast/pkg/config"
 	"udemy_bed_and_breakfast/pkg/handlers"
 	"udemy_bed_and_breakfast/pkg/render"
+
+	"github.com/alexedwards/scs/v2"
 )
 
 const portNumber = ":8080"
 
+var app config.AppConfig
+var session *scs.SessionManager
+
 // main is the main function
 func main() {
+	// change this to true when in production
+	app.InProduction = false
 
-	var app config.AppConfig
+	session = scs.New()
+	session.Lifetime = 24 * time.Hour
+	session.Cookie.Persist = true
+	session.Cookie.SameSite = http.SameSiteLaxMode
+	session.Cookie.Secure = app.InProduction
+
+	app.Session = session
 
 	tc, err := render.CreateTemplateCache()
 	if err != nil {
