@@ -2,9 +2,10 @@ package handlers
 
 import (
 	"net/http"
-	"udemy_bed_and_breakfast/models"
-	"udemy_bed_and_breakfast/pkg/config"
-	"udemy_bed_and_breakfast/pkg/render"
+
+	"github.com/saim61/udemy_bed_and_breakfast/models"
+	"github.com/saim61/udemy_bed_and_breakfast/pkg/config"
+	"github.com/saim61/udemy_bed_and_breakfast/pkg/render"
 )
 
 var Repo *Repository

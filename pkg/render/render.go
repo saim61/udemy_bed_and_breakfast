@@ -6,8 +6,9 @@ import (
 	"log"
 	"net/http"
 	"path/filepath"
-	"udemy_bed_and_breakfast/models"
-	"udemy_bed_and_breakfast/pkg/config"
+
+	"github.com/saim61/udemy_bed_and_breakfast/models"
+	"github.com/saim61/udemy_bed_and_breakfast/pkg/config"
 )
 
 var app *config.AppConfig

@@ -2,8 +2,10 @@ package main
 
 import (
 	"net/http"
-	"udemy_bed_and_breakfast/pkg/config"
-	"udemy_bed_and_breakfast/pkg/handlers"
+
+	"github.com/saim61/udemy_bed_and_breakfast/pkg/handlers"
+
+	"github.com/saim61/udemy_bed_and_breakfast/pkg/config"
 
 	"github.com/go-chi/chi"
 	"github.com/go-chi/chi/middleware"

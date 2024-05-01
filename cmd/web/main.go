@@ -5,9 +5,10 @@ import (
 	"log"
 	"net/http"
 	"time"
-	"udemy_bed_and_breakfast/pkg/config"
-	"udemy_bed_and_breakfast/pkg/handlers"
-	"udemy_bed_and_breakfast/pkg/render"
+
+	"github.com/saim61/udemy_bed_and_breakfast/pkg/config"
+	"github.com/saim61/udemy_bed_and_breakfast/pkg/handlers"
+	"github.com/saim61/udemy_bed_and_breakfast/pkg/render"
 
 	"github.com/alexedwards/scs/v2"
 )

@@ -1,6 +1,6 @@
-module udemy_bed_and_breakfast
+module github.com/saim61/udemy_bed_and_breakfast
 
-go 1.21.3
+go 1.22.0
 
 require (
 	github.com/alexedwards/scs/v2 v2.8.0
