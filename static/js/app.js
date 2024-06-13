@@ -1,40 +1,121 @@
-{{template "base" .}}
+function Prompt() {
+    let toast = function (c) {
+        const {
+            msg = '',
+            icon = 'success',
+            position = 'top-end',
 
-{{define "content"}}
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <img src="/static/images/marjors-suite.png"
-                     class="img-fluid img-thumbnail mx-auto d-block room-image" alt="room image">
-            </div>
-        </div>
+        } = c;
 
-        <div class="row">
-            <div class="col">
-                <h1 class="text-center mt-4">Major's Suite</h1>
-                <p>
-                    Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember. Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember. Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember. Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember. Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember. Your home away form home, set on the majestic waters of the Atlantic Ocean, this will be a vacation
-                    to remember.
-                </p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col text-center">
-                <a id="check-availability-button" href="#!" class="btn btn-success">Check Availability</a>
-            </div>
-        </div>
-    </div>
-{{end}}
+        const Toast = Swal.mixin({
+            toast: true,
+            title: msg,
+            position: position,
+            icon: icon,
+            showConfirmButton: false,
+            timer: 3000,
+            timerProgressBar: true,
+            didOpen: (toast) => {
+                toast.addEventListener('mouseenter', Swal.stopTimer)
+                toast.addEventListener('mouseleave', Swal.resumeTimer)
+            }
+        })
 
-{{define "js"}}
-    <script>
-        document.getElementById("check-availability-button").addEventListener("click", function () {
-            let html = `
+        Toast.fire({})
+    }
+
+    let success = function (c) {
+        const {
+            msg = "",
+            title = "",
+            footer = "",
+        } = c
+
+        Swal.fire({
+            icon: 'success',
+            title: title,
+            text: msg,
+            footer: footer,
+        })
+
+    }
+
+    let error = function (c) {
+        const {
+            msg = "",
+            title = "",
+            footer = "",
+        } = c
+
+        Swal.fire({
+            icon: 'error',
+            title: title,
+            text: msg,
+            footer: footer,
+        })
+
+    }
+
+    async function custom(c) {
+        const {
+            icon = "",
+            msg = "",
+            title = "",
+            showConfirmButton = true,
+        } = c;
+
+        const { value: result } = await Swal.fire({
+            icon: icon,
+            title: title,
+            html: msg,
+            backdrop: false,
+            focusConfirm: false,
+            showCancelButton: true,
+            showConfirmButton: showConfirmButton,
+            willOpen: () => {
+                if (c.willOpen !== undefined) {
+                    c.willOpen();
+                }
+            },
+            didOpen: () => {
+                if (c.didOpen !== undefined) {
+                    c.didOpen();
+                }
+            },
+            preConfirm: () => {
+                return [
+                    document.getElementById('start').value,
+                    document.getElementById('end').value
+                ]
+            }
+        })
+
+        if (result) {
+            if (result.dismiss !== Swal.DismissReason.cancel) {
+                if (result.value !== "") {
+                    if (c.callback !== undefined) {
+                        c.callback(result);
+                    }
+                } else {
+                    c.callback(false);
+                }
+            } else {
+                c.callback(false);
+            }
+        }
+    }
+
+    return {
+        toast: toast,
+        success: success,
+        error: error,
+        custom: custom,
+    }
+}
+
+function CheckAvailability(roomID) {
+    document.getElementById("check-availability-button").addEventListener("click", function () {
+        let html = `
         <form id="check-availability-form" action="" method="post" novalidate class="needs-validation">
             <div class="form-row">
                 <div class="col">
@@ -50,7 +131,7 @@
             </div>
         </form>
         `;
-            attention.custom({
+        attention.custom({
             title: 'Choose your dates',
             msg: html,
             willOpen: () => {
@@ -71,7 +152,7 @@
                 let form = document.getElementById("check-availability-form");
                 let formData = new FormData(form);
                 formData.append("csrf_token", "{{.CSRFToken}}");
-                formData.append("room_id", "2");
+                formData.append("room_id", roomID);
 
                 fetch('/search-availability-json', {
                     method: "post",
@@ -105,5 +186,4 @@
             }
         });
     })
-</script>
-{{end}}
+}
