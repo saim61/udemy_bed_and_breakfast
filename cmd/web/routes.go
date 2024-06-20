@@ -9,7 +9,7 @@ import (
 	"github.com/saim61/udemy_bed_and_breakfast/internal/handlers"
 )
 
-func routes(app *config.AppConfig) http.Handler {
+func routes(_ *config.AppConfig) http.Handler {
 	mux := chi.NewRouter()
 
 	mux.Use(middleware.Recoverer)
